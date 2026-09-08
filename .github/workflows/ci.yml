@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+      - uses: gradle/actions/setup-gradle@v6
+      - name: Compile and test
+        run: ./gradlew :design-system:velox:desktopTest :catalog:storytale:compileStoriesKotlinDesktop :catalog:storytale:compileStoriesKotlinWasmJs docs
